@@ -2,25 +2,26 @@
     ViewData["Title"] = "Home Page";
 }
 @model Movie
-<!-- This page acts as the form where we can submit more movies into the database -->
+<!-- This page acts as the form where we can submit more movies into the database 
+The 'required' tags make sure -->
 <h1>New Movies Form</h1>
 
 <form method="post">
-    
     <label asp-for="Category">Category</label>
-    <input asp-for="Category"/>
+    <input asp-for="Category" required/>
     <br/>
     <label asp-for="Title">Title</label>
-    <input asp-for="Title"/>
+    <input asp-for="Title" required/>
     <br/>
     <label asp-for="Year">Year</label>
-    <input asp-for="Year"/>
+    <input asp-for="Year" required/>
     <br/>
     <label asp-for="Director">Director</label>
-    <input asp-for="Director"/>
+    <input asp-for="Director" required/>
     <br/>
     <label asp-for="Rating">Rating</label>
-    <select asp-for="Rating">
+    <select asp-for="Rating" required>
+        <option value="">Select a rating</option>
         <option value="G">G</option>
         <option value="PG">PG</option>
         <option value="PG-13">PG-13</option>
@@ -37,8 +38,27 @@
     <input asp-for="LentTo"/>
     <br/>
     <label asp-for="Notes">Notes</label>
-    <input asp-for="Notes"/>
-    
-    <button type="submit">Submit Application</button>
+    <input asp-for="Notes" maxlength="25"/>
 
+    <button type="submit" id="submitBtn" disabled>Submit Application</button>
 </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    function checkFormValidity() {
+        let isValid = true;
+
+        $("input[required], select[required]").each(function () {
+            if ($(this).val().trim() === "") {
+                isValid = false;
+            }
+        });
+
+        $("#submitBtn").prop("disabled", !isValid);
+    }
+
+    $("input[required], select[required]").on("input change", checkFormValidity);
+    checkFormValidity(); // Check on page load
+});
+</script>

@@ -1,8 +1,9 @@
 @{
-    Layout = null;
+    ViewData["Title"] = "Home Page";
 }
 
 @model Movie
 
+<!-- This is a simple confirmation page that the movie was entered correctly -->
 <h1>Thanks for adding @Model.Title to the database!</h1>
 <a asp-action="Index">Return to Home Page</a>
