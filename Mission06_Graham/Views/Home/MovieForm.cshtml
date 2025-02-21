@@ -3,12 +3,19 @@
 }
 @model Movie
 <!-- This page acts as the form where we can submit more movies into the database 
-The 'required' tags make sure -->
+The required tags don't allow someone to click the submit button until the required fields are filled
+The validation is also done in the Movie.cs file -->
 <h1>New Movies Form</h1>
 
 <form method="post">
-    <label asp-for="Category">Category</label>
-    <input asp-for="Category" required/>
+    <input type="hidden" asp-for="MovieId"/>
+    
+    <select asp-for="CategoryId">
+        @foreach (Category c in ViewBag.Categories)
+        {
+            <option value="@c.CategoryId">@c.CategoryName</option>
+        }
+    </select>
     <br/>
     <label asp-for="Title">Title</label>
     <input asp-for="Title" required/>
@@ -17,10 +24,10 @@ The 'required' tags make sure -->
     <input asp-for="Year" required/>
     <br/>
     <label asp-for="Director">Director</label>
-    <input asp-for="Director" required/>
+    <input asp-for="Director" />
     <br/>
     <label asp-for="Rating">Rating</label>
-    <select asp-for="Rating" required>
+    <select asp-for="Rating" >
         <option value="">Select a rating</option>
         <option value="G">G</option>
         <option value="PG">PG</option>
@@ -29,20 +36,28 @@ The 'required' tags make sure -->
     </select>
     <br/>
     <label asp-for="Edited">Edited?</label>
-    <select asp-for="Edited">
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
+    <select asp-for="Edited" required>
+        <option value="True">Yes</option>
+        <option value="False">No</option>
     </select>
     <br/>
     <label asp-for="LentTo">Lent To</label>
     <input asp-for="LentTo"/>
     <br/>
+    <label asp-for="CopiedToPlex" required >Copied to Plex</label>
+    <input asp-for="CopiedToPlex"/>
+    <br/>
     <label asp-for="Notes">Notes</label>
     <input asp-for="Notes" maxlength="25"/>
 
     <button type="submit" id="submitBtn" disabled>Submit Application</button>
+    
+    <!-- this last tag here allows error messages to show when required fields are filled -->
+    <div asp-validation-summary="All"></div>
 </form>
 
+<!-- this is admitally something chat gave me to help with validation within the form itself. I don't totally know
+what it does :) but it has helped so far! -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function () {
